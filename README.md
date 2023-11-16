@@ -8,9 +8,10 @@ Pytorch >= 1.13.0
 Python >= 3.7.0
 
 ```
-git clone -b main_jae -d-single-branch https://github.com/SeonjiPark/SNU_ReID.git
-cd SNU_ReID
-conda create -n reid1 python=3.7
+git clone https://github.com/parkjun210/SNU_Reid_Eval.git
+cd SNU_ReID_Eval
+conda create -n <ENV_name> python=3.7
+conda activate <ENV_name>
 pip install tqdm einops opencv-python yacs tensorboard attributedict pandas matplotlib seaborn motmetrics lap
 pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
 ```
@@ -88,6 +89,13 @@ Inference 및 Test에 사용할 경로 및 파라미터 설정은 config.py에�
 
 --reid_weight_file : 사용할 ReID weight 경로
 
+--gt_txt_path : 사용할 GT txt 경로
+
+--use_GT_IDs : result 결과에 GT label 표시
+
+--video : result image 결과를 병합한 video 생성 여부
+
+
 ```
 
 # Inference
@@ -95,47 +103,18 @@ Inference 및 Test에 사용할 경로 및 파라미터 설정은 config.py에�
 Config.py에서 경로 설정을 마친 이후, inferece를 돌려볼 수 있다.
 
 ```
-python infer.py
+python util/make_gt.py
+python infer.py --use_GT_IDs --video
 ```
+
+Evaluation을 진행하기에 앞서 make_gt.py를 통하여 gt.txt 파일을 생성
 
 Inference는 infer_data_dir 경로에 있는 이미지들에 대해 detection + ReID를 수행한다.
 
 지정한 갤러리와 비교해서 각 이미지마다 검출된 ID 예측값을 출력한다.
 
-```
-예) Predicted Class : [3, 2, 1, 6]
-```
-
-# Test
-
-Config.py에서 경로 설정을 마친 이후, Test 돌려볼 수 있다.
-
-```
-python test.py
-```
-
-Test는 infer_data_dir 경로에 있는 이미지들에 대해 detection + ReID를 수행한다.
-
-지정한 갤러리와 비교해서 각 이미지마다 검출된 ID 예측값과, 실제 GT ID 값들을 출력ㄴ한다.
-
-```
-예) Predicted Class : [3, 2, 1, 6]
-
-    GT Class : [3, 2, 4, 6]
-```
-
-이후 infer_data_dir 경로에 있는 모든 이미지들에대해 수행한 이후,
-아래와 같은 총 top-k 및 mAP 점수, 및 정확도를 출력한다.
-
-```
-top-k, Rank-1  :96.5%
-top-k, Rank-5  :99.4%
-...
-top-k, Rank-50 :99.9%
-mAP: 0.9788
-Accuracy: 0.9650 (7613/7889)
-```
-
+--use_GT_IDs: 이 flag를 추가시 result image에 GT label 표시
+--video: 이 flag 추가시 result images를 병합한 video 생성
 
 
 
