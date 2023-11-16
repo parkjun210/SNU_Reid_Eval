@@ -8,10 +8,11 @@ Pytorch >= 1.13.0
 Python >= 3.7.0
 
 ```
-git clone -b main_jae --single-branch https://github.com/SeonjiPark/SNU_ReID.git
+git clone -b main_jae -d-single-branch https://github.com/SeonjiPark/SNU_ReID.git
 cd SNU_ReID
-conda create --name ENV_NAME --file requirements.txt
-conda activate ENV_NAME
+conda create -n reid1 python=3.7
+pip install tqdm einops opencv-python yacs tensorboard attributedict pandas matplotlib seaborn motmetrics lap
+pip install torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
 ```
 
 
