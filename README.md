@@ -100,14 +100,16 @@ Inference 및 Test에 사용할 경로 및 파라미터 설정은 config.py에�
 
 # Inference
 
-Config.py에서 경로 설정을 마친 이후, inferece를 돌려볼 수 있다.
+detection 및 reid를 진행할 pretrained_weight 파일들을 weights 폴더에 위치하고 config.py에서 경로 설정
+
+python util.make_gt.py를 통해 gt.txt 파일 생성
+
+python infer.py를 통하여 evaluation 진행
 
 ```
 python util/make_gt.py
 python infer.py --use_GT_IDs --video
 ```
-
-Evaluation을 진행하기에 앞서 make_gt.py를 통하여 gt.txt 파일을 생성
 
 Inference는 infer_data_dir 경로에 있는 이미지들에 대해 detection + ReID를 수행한다.
 
