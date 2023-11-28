@@ -1,8 +1,20 @@
+import argparse
 import os
 
-input_file_path = '../DATASET/MOT17-04-FRCNN_query/gt/gt.txt'  # 읽을 파일의 경로
+# ArgumentParser 생성
+parser = argparse.ArgumentParser(description='path_to_gt')
 
-output_file_path =  os.path.join(os.path.dirname(input_file_path),'MOT17_004_FRCNN_gt_250.txt')   # 쓸 파일의 경로
+# 'path'라는 인자 추가
+parser.add_argument('--path', '-p', type=str, help='gt.txt path')
+
+# 인자 파싱
+args = parser.parse_args()
+
+input_file_path = args.path  # 읽을 파일의 경로
+
+assert input_file_path != None, 'set gt.txt path'
+
+output_file_path =  os.path.join(os.path.dirname(input_file_path),'gt_revised.txt')   # 쓸 파일의 경로
 
 with open(output_file_path, 'w') as output_file:
     with open(input_file_path, 'r') as input_file:

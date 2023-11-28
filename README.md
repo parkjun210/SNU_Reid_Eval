@@ -102,12 +102,13 @@ Inference 및 Test에 사용할 경로 및 파라미터 설정은 config.py에�
 
 detection 및 reid를 진행할 pretrained_weight 파일들을 weights 폴더에 위치하고 config.py에서 경로 설정
 
-python util.make_gt.py를 통해 gt.txt 파일 생성
+python util.make_gt.py를 통해 gt_revised.txt 파일 생성
+(gt.txt 파일을 읽어서 frame, class, visibility, bbox scope 등을 고려, default는 1920x1080 size)
 
 python infer.py를 통하여 evaluation 진행
 
 ```
-python util/make_gt.py
+python util/make_gt.py --path <path/to/gt.txt>
 python infer.py --use_GT_IDs --video
 ```
 
@@ -118,6 +119,31 @@ Inference는 infer_data_dir 경로에 있는 이미지들에 대해 detection + 
 --use_GT_IDs: 이 flag를 추가시 result image에 GT label 표시
 --video: 이 flag 추가시 result images를 병합한 video 생성
 
+# GT.txt 구성
 
+|Position|Name|Description|
+|:---:|:---:|:---|
+| 1 | Frame number | Indicate at which frame the object is present |
+| 2 | Identity number | Each pedestrian trajectory is identified by a unique ID (􀀀1 for detections) |
+| 3 | Bounding box left | Coordinate of the top-left corner of the pedestrian bounding box |
+| 4 | Bounding box top | Coordinate of the top-left corner of the pedestrian bounding box |
+| 5 | Bounding box width| Width in pixels of the pedestrian bounding box |
+| 6 | Bounding box height| Height in pixels of the pedestrian bounding box |
+| 7 | Confidence score | DET: Indicates how confident the detector is that this instance is a pedestrian. GT: It acts as a flag whether the entry is to be considered (1) or ignored (0). |
+| 8 | Class | GT: Indicates the type of object annotated |
+| 9 | Visibility | GT: Visibility ratio, a number between 0 and 1 that says how much of that object is visible. Can be due to occlusion and due to image border cropping. |
 
-
+|Class|ID|
+|:---|:---:|
+|Pedestrian | 1|
+|Person on vehicle | 2|
+|Car | 3|
+|Bicycle | 4|
+|Motorbike | 5|
+|Non motorized vehicle | 6|
+|Static person | 7|
+|Distractor | 8|
+|Occluder | 9|
+|Occluder on the ground | 10|
+|Occluder full | 11|
+|Reflection | 12|
